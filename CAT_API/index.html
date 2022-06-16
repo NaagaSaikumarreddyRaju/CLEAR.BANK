@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet"href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="index.css">
+
+    </head>
+    <body>
+        <script>
+
+            // Feteching data from API
+            var url = fetch('https://api.thecatapi.com/v1/breeds',{
+              headers:{
+                'x-api-key':'7cecc1b8-8262-4334-bdbd-27b867bfb7ac'
+              }
+            });
+
+            url.then((data) =>{
+                return data.json();
+            }).then((response) =>{
+                console.log(response);
+
+            // Creating Container and row to display data
+                var main_div = document.createElement('div');
+                main_div.setAttribute('class','container');
+                var roww = document.createElement('div');
+                roww.setAttribute('class','row');
+
+            //Looping the data
+                for(var i =0;i<66;i++){
+                      var col = document.createElement('div');
+                      col.setAttribute('class','col-lg-4');
+                      var column = document.createElement('div');
+                      column.setAttribute('class','card mt-4 ml-3');
+                      var divi1 = document.createElement('div');
+                      divi1.setAttribute('class','card-header');
+                      divi1.innerText = i+1 +" " + response[i].name
+                      column.appendChild(divi1);
+                      var image =document.createElement('img');
+                      image.setAttribute('class','card-img-top')
+                      image.setAttribute('style','height:200px;width:333px')
+                      if(response[i]['image']!= undefined){
+                        valid_image = response[i]['image']['url']
+                      }
+                      else {valid_image = ""}
+                      image.alt=  "image not found"
+                      image.src  = valid_image
+
+                      column.appendChild(image);
+                      var divi = document.createElement('div');
+                      divi.setAttribute('class','card-body');
+                      divi.innerText ="ID :" + response[i].id +"\nName :" +response[i].name +"\nOrigin :" +response[i].origin +"\nIntelligence :" +response[i].intelligence  +"\nAdaptability :" +response[i].adaptability;
+
+                      column.appendChild(divi);
+                      col.appendChild(column);
+                      roww.appendChild(col);
+                     }
+                   main_div.appendChild(roww);
+               document.body.append(main_div);
+            }).catch((err) => {
+                console.error(err);
+            })
+
+        </script>
+    </body>
